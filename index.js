@@ -368,6 +368,17 @@ async function run() {
     });
 
 
+   app.get('/all-post', async (req, res) => {
+  try {
+    const posts = await postsCollection.find({}).sort({ created_at: -1 }).toArray(); 
+    res.send(posts);
+  } catch (error) {
+    console.error('Failed to fetch posts:', error);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
+});
+
+
 
 
     app.get('/post/:id', verifyToken, async (req, res) => {

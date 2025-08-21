@@ -191,10 +191,7 @@ async function run() {
     //  patch
     app.patch("/users/:id/role", verifyToken,  async (req, res) => {
 
-      // const email = req.params.email;
-      // if (email !== req.decoded.email) {
-      //   return res.status(403).send({ message: 'Forbidden: Email mismatch' });
-      // }
+      
       const { id } = req.params;
       const { role } = req.body;
 
@@ -243,15 +240,6 @@ async function run() {
         res.status(500).send({ message: 'Internal server error' });
       }
     });
-
-
-
-    // app.get('/posts/recent/:email', async (req, res) => {
-    //   const email = req.params.email;
-    //   const result = await postsCollection.find({ email }).sort({ _id: -1 }).limit(3).toArray();
-    //   res.send(result);
-    // });
-
 
 
     app.get('/posts/recent/:email', verifyToken, async (req, res) => {
@@ -341,16 +329,12 @@ async function run() {
     });
 
 
-    // app.get('/all-posts',async(req,res)=>{
-    //         const post = postsCollection.find()
-    //         const result = await post.toArray()
-    //         res.send(result)
-    //     })
+ 
 
 
     app.get('/all-posts', async (req, res) => {
       const page = parseInt(req.query.page) || 1;
-      const limit = 5;
+      const limit = 6;
       const skip = (page - 1) * limit;
       const sortByPopularity = req.query.sortByPopularity === 'true';
 
@@ -432,28 +416,9 @@ async function run() {
       }
     });
 
-    // // Comment Post API
-    // app.post('/comments', async (req, res) => {
-    //   const { postTitle, email, commentText,reportedFeedback,status } = req.body;
-
-    //   const newComment = {
-    //     postTitle,
-    //     email,
-    //     commentText,
-    //     reportedFeedback,
-    //     status:'active',
-    //     createdAt: new Date(),
-    //   };
-
-    //   const result = await commentsCollection.insertOne(newComment);
-    //   console.log(reportedFeedback)
-    //   res.send(result);
-    // });
-
-
+  
     app.post('/comments',  async (req, res) => {
-
-    
+   
       const { postTitle, email, commentText, reportedFeedback } = req.body;
 
       // Only allow one of the valid options
@@ -619,8 +584,8 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
